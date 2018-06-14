@@ -27,7 +27,7 @@
  <!-- 查询单个 -->
  <select id="get" parameterType="string" resultMap="factoryRM">
      select * from factory_c
-     where factory_id =#{pid}
+     where factory_id =#{helloworld}
  </select>
  
 <insert id="insert" parameterType="com.jk.pojo.Factory">

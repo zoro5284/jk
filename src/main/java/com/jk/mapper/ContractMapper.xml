@@ -1,28 +1,114 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jk.mapper.ContractMapper">
-<resultMap id="ContactRM" type="com.jk.pojo.Contact">
-    <id property="id" column="CONTRACT_ID" />
-    <result property="offeror"  column="OFFEROR"/>
-    <result property="contactNo"  column="CONTRACT_NO"/>
-    <result property="singingDate"  column="SIGNING_DATE"/>
-    <result property="inputBy"  column="INPUT_BY"/>
-    <result property="checkBy"  column="CHECK_BY"/>
-    <result property="inspector"  column="INSPECTOR"/>
-    <result property="totalAmount"  column="TOTAL_AMOUNT"/>
-    <result property="importNum"  column="IMPORT_NUM"/>
-    <result property="crequest"  column="CREQUEST"/>
-    <result property="customName"  column="CUSTOM_NAME"/>
-    <result property="deliveryPeriod"  column="DELIVERY_PERIOD"/>
-    <result property="shipTime"  column="SHIP_TIME"/>
-    <result property="tradeTerms"  column="TRADE_TERMS"/>
-    <result property="remark"  column="REMARK"/>
-    <result property="printStyle"  column="PRINT_STYLE"/>
-    <result property="oldState"  column="OLD_STATE"/>
-    <result property="state"  column="STATE"/>
-    <result property="outState"  column="OUT_STATE"/>
-    <result property="createBy"  column="CREATE_BY"/>
-    <result property="createDept"  column="CREATE_DEPT"/>
-    <result property="createTime"  column="CREATE_TIME"/>
-</resultMap>
+    <resultMap id="ContractRM" type="com.jk.pojo.Contract">
+        <id property="id" column="CONTRACT_ID"/>
+        <result property="offeror" column="OFFEROR"/>
+        <result property="contactNo" column="CONTRACT_NO"/>
+        <result property="singingDate" column="SIGNING_DATE"/>
+        <result property="inputBy" column="INPUT_BY"/>
+        <result property="checkBy" column="CHECK_BY"/>
+        <result property="inspector" column="INSPECTOR"/>
+        <result property="totalAmount" column="TOTAL_AMOUNT"/>
+        <result property="importNum" column="IMPORT_NUM"/>
+        <result property="crequest" column="CREQUEST"/>
+        <result property="customName" column="CUSTOM_NAME"/>
+        <result property="deliveryPeriod" column="DELIVERY_PERIOD"/>
+        <result property="shipTime" column="SHIP_TIME"/>
+        <result property="tradeTerms" column="TRADE_TERMS"/>
+        <result property="remark" column="REMARK"/>
+        <result property="printStyle" column="PRINT_STYLE"/>
+        <result property="oldState" column="OLD_STATE"/>
+        <result property="state" column="STATE"/>
+        <result property="outState" column="OUT_STATE"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createDept" column="CREATE_DEPT"/>
+        <result property="createTime" column="CREATE_TIME"/>
+    </resultMap>
+
+    <select id="find" resultMap="ContractRM" parameterType="map">
+    SELECT * FROM CONTRACT_C
+    where 1=1
+    </select>
+
+    <select id="get" resultMap="ContractRM" parameterType="string">
+        SELECT * FROM  CONTRACT_C
+        where CONTRACT_ID = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.jk.pojo.Contract">
+        INSERT INTO CONTRACT_C
+        (CONTRACT_ID,OFFEROR,CONTRACT_NO,SIGNING_DATE,INPUT_BY,CHECK_BY,INSPECTOR,TOTAL_AMOUNT,IMPORT_NUM,CREQUEST,CUSTOM_NAME,DELIVERY_PERIOD,SHIP_TIME,TRADE_TERMS,REMARK,PRINT_STYLE,OLD_STATE,STATE,OUT_STATE,CREATE_BY,CREATE_DEPT,CREATE_TIME)
+        VALUES (
+        #{id},
+        #{offeror,jdbcType=VARCHAR},
+        #{contactNo,jdbcType=VARCHAR},
+        #{singingDate,jdbcType=TIMESTAMP},
+        #{inputBy,jdbcType=VARCHAR},
+        #{checkBy,jdbcType=VARCHAR},
+        #{inspector,jdbcType=VARCHAR},
+        #{totalAmount,jdbcType=NUMERIC},
+        #{importNum,jdbcType=INTEGER},
+        #{crequest,jdbcType=VARCHAR},
+        #{customName,jdbcType=VARCHAR},
+        #{deliveryPeriod,jdbcType=TIMESTAMP},
+        #{shipTime,jdbcType=TIMESTAMP},
+        #{tradeTerms,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR},
+        #{printStyle,jdbcType=VARCHAR},
+        #{oldState,jdbcType=INTEGER},
+        #{state,jdbcType=INTEGER},
+        #{outState,jdbcType=INTEGER},
+        #{createBy,jdbcType=VARCHAR},
+        #{createDept,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <delete id="deleteById" parameterType="string">
+        delete from contract_c
+        where contract_c = #{id}
+    </delete>
+
+    <delete id="delete" parameterType="java.util.ArrayList">
+        DELETE FROM CONTRACT_C
+        WHERE CONTRACT_ID IN
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="com.jk.pojo.Contract">
+        update contract_c
+        <set>
+            <if test="offeror!=null">OFFEROR=#{offeror,jdbcType=VARCHAR},</if>
+            <if test="contactNo!=null">CONTRACT_NO=#{contactNo,jdbcType=VARCHAR},</if>
+            <if test="singingDate!=null">SIGNING_DATE=#{singingDate,jdbcType=TIMESTAMP},</if>
+            <if test="inputBy!=null">INPUT_BY=#{inputBy,jdbcType=VARCHAR},</if>
+            <if test="checkBy!=null">CHECK_BY=#{checkBy,jdbcType=VARCHAR},</if>
+            <if test="inspector!=null">INSPECTOR=#{inspector,jdbcType=VARCHAR},</if>
+            <if test="totalAmount!=null">TOTAL_AMOUNT=#{totalAmount,jdbcType=NUMERIC},</if>
+            <if test="importNum!=null">IMPORT_NUM=#{importNum,jdbcType=INTEGER},</if>
+            <if test="crequest!=null">CREQUEST=#{crequest,jdbcType=VARCHAR},</if>
+            <if test="customName!=null">CUSTOM_NAME=#{customName,jdbcType=VARCHAR},</if>
+            <if test="deliveryPeriod!=null">DELIVERY_PERIOD=#{deliveryPeriod,jdbcType=TIMESTAMP},</if>
+            <if test="shipTime!=null">SHIP_TIME=#{shipTime,jdbcType=TIMESTAMP},</if>
+            <if test="tradeTerms!=null">TRADE_TERMS=#{tradeTerms,jdbcType=VARCHAR},</if>
+            <if test="remark!=null">REMARK=#{remark,jdbcType=VARCHAR},</if>
+            <if test="printStyle!=null">PRINT_STYLE=#{printStyle,jdbcType=VARCHAR},</if>
+            <if test="oldState!=null">OLD_STATE=#{oldState,jdbcType=INTEGER},</if>
+            <if test="state!=null">STATE=#{state,jdbcType=INTEGER},</if>
+            <if test="outState!=null">OUT_STATE=#{outState,jdbcType=INTEGER},</if>
+        </set>
+        where contract_id=#{id}
+    </update>
+    <update id="updateState" parameterType="map">
+        update contract_c set state=#{state}
+        where contract_id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+
 </mapper>

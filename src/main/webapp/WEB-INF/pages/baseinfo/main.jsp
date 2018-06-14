@@ -31,8 +31,9 @@
 			<tr>
 				<td class="model_intro_left">厂家信息：</td>
 				<td class="model_intro_right">在购销合同中货物和附件中可选择对应的厂家。</td>
-			</tr>   	
-			
+			</tr>
+
+
 			<tfoot>
 				<tr>
 					<td colspan="2" class="tableFooter"></td>

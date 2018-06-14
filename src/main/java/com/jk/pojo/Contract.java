@@ -2,7 +2,7 @@ package com.jk.pojo;
 
 import java.util.Date;
 
-public class Contact {
+public class Contract {
     private String id;
     private String offeror;
     private String contactNo;

@@ -2,8 +2,8 @@ package com.jk.pojo;
 
 public class Factory {
 	private String  id;
-	private String 	fullName;
 	private String 	factoryName;
+	private String 	fullName;
 	private String	contacts;
 	private String 	phone;
 	private String 	mobile;

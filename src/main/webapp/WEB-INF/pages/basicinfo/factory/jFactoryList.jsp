@@ -61,7 +61,7 @@
 	
 	<c:forEach items="${dataList}" var="o" varStatus="status">
 	<tr class="odd" onmouseover="this.className='highlight'" onmouseout="this.className='odd'" >
-		<td><input type="checkbox" name="id" value="${o.id}"/></td>
+		<td><input type="checkbox" name="id" value="${o.id}"/></td><%--form表单从此处获取要修改的id--%>
 		<td>${status.index+1}</td>
 		<td><a href="toview.action?id=${o.id}">${o.fullName}</a></td>
 		<td>${o.factoryName}</td>

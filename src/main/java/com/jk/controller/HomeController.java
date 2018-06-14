@@ -14,10 +14,10 @@ public class HomeController {
 		return "/index.jsp";			//首页，删除根目录下index.jsp，否则上面url将被拦截进不来
 	}
 	
-	@RequestMapping(value="/fmain.action")
-	public String fmain(){
-		return "/home/fmain.jsp";
-	}
+//	@RequestMapping(value="/fmain.action")
+//	public String fmain(){
+//		return "/home/fmain.jsp";
+//	}
 	
 	@RequestMapping(value="/title.action")
 	public String title(){

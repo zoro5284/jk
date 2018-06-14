@@ -2,7 +2,10 @@ package com.jk.controller.basicinfo.factory;
 
 import java.util.List;
 
+import com.jk.service.impl.FactoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jk.pojo.Factory;
-import com.jk.pojo.Factory;
 import com.jk.service.FactoryService;
 
 @Controller
+//@Configuration
 public class FactoryController {
 	@Autowired
+	@Qualifier("factoryservice")
 	private FactoryService factoryService;
 	
 	@RequestMapping("/basicinfo/factory/list")
@@ -32,7 +36,9 @@ public class FactoryController {
 		return "/basicinfo/factory/jFactoryCreate.jsp";
 	}
 	
-	@RequestMapping("/basicinfo/factory/insert.action")
+	@RequestMapping("/basicinfo/insert.action")
+//	@RequestMapping("/basicinfo/factory/insert.action")
+
 	public String  insert(Factory factory){
 		factoryService.insert(factory);
 		System.out.println("factoryId="+factory.getId());
@@ -59,7 +65,7 @@ public class FactoryController {
 		return "redirect:/basicinfo/factory/list.action";
 	}
 	
-	@RequestMapping("/basicinfo/factory/deleteById")
+	@RequestMapping("/basicinfo/factory/deleteById")//好像没有用到，能用单个删的都可以使用下面一个传一个ids数组删除
 	public String deleteById(String id){
 		factoryService.deleteById(id);
 		return "redirect:/basicinfo/factory/list.action";

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.jk.mapper.FactoryMapper;
@@ -15,6 +16,7 @@ import com.jk.pojo.Factory;
 import com.jk.pojo.Factory;
 import com.jk.service.FactoryService;
 @Service
+@Qualifier("factoryservice")
 public class FactoryServiceImpl implements FactoryService {
 	
 	@Autowired

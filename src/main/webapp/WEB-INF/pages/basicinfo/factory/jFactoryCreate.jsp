@@ -12,7 +12,7 @@
 <div id="innerMenubar">
     <div id="navMenubar">
 <ul>
-<li id="save"><a href="#" onclick="formSubmit('insert.action','_self');">确定</a></li>
+<li id="save"><a href="#" onclick="formSubmit('${ctx}/basicinfo/insert.action','_self');">确定</a></li>
 <li id="back"><a href="list.action">返回</a></li>
 </ul>
     </div>
