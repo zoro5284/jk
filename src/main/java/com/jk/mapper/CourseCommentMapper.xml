@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.mapper.CourseCommentMapper">
+    <!--classs，tradeDetail,courseComment三个实体类的包装类-->
+    <resultMap id="CourseCommentVORM" type="com.jk.pojo.CourseCommentVO">
+        <id property="id" column="ID"/>
+        <result property="classId" column="CLASS_ID"/>
+        <result property="courseId" column="COURSE_ID"/>
+        <result property="courseName" column="COURSE_NAME"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="userOpenId" column="USER_OPENID"/>
+        <result property="userName"  column="USER_NAME"/>
+        <result property="comment"  column="COMMENT"/>
+        <result property="stars"  column="STARS"/>
+        <result property="state"  column="STATE"/>
+        <association property="tradeDetail" resultMap="tradeDetailRM"/>
+        <association property="classs" resultMap="classsRM"/>
+    </resultMap>
+
+    <resultMap id="classsRM" type="com.jk.pojo.Classs" >
+        <!-- 主键 -->
+        <id property="id" column="CLASS_ID"/>
+        <!-- 一般属性 -->
+        <result property="className" column="CLASS_NAME"/>
+        <result property="classMonitor" column="CLASS_MONITOR"/>
+        <result property="classNumber" column="CLASS_NUMBER"/>
+        <result property="classTime" column="CLASS_TIME"/>
+        <result property="areaId" column="AREA_ID"/>
+        <result property="areaName" column="AREA_NAME"/>
+        <result property="classAddress" column="CLASS_ADDRESS"/>
+        <result property="classCishu" column="CLASS_CISHU"/>
+        <result property="teacherId" column="TEACHER_ID"/>
+        <result property="teacherName" column="TEACHER_NAME"/>
+        <result property="classstate" column="CLASSS_STATE"/>
+    </resultMap>
+
+
+    <resultMap  id="tradeDetailRM" type="com.jk.pojo.TradeDetail">
+    <id property="id" column="DETAIL_ID"/>
+    <result property="tradeId" column="TRADE_ID"/>
+    <result property="userId" column="USER_ID"/>
+    <result property="userName" column="USER_NAME"/>
+    <result property="courseId" column="COURSE_ID"/>
+    <result property="courseName" column="COURSE_NAME"/>
+    <result property="tradeState" column="TRADE_STATE"/>
+    <result property="areaId" column="AREA_ID"/>
+    <result property="areaName" column="AREA_NAME"/>
+    <result property="classId" column="CLASS_ID"/>
+    <result property="classState" column="CLASS_STATE"/>
+    <result property="classprice" column="CLASS_PRICE"/>
+    <result property="userPhone" column="USER_PHONE"/>
+    <result property="courseCover" column="COURSE_COVER"/>
+    <result property="commentState" column="COMMENT_STATE"/>
+</resultMap>
+
+    <resultMap id="UserRM" type="com.jk.pojo.User">
+        <id property="userId" column="USERID"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="password" column="PASSWORD"/>
+    </resultMap>
+
+    <resultMap id="commentRM" type="com.jk.pojo.CourseComment">
+        <id property="id" column="CLASS_ID"/>
+        <result property="courseId" column="COURSE_ID"/>
+        <result property="courseName" column="COURSE_NAME"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="userOpenId" column="USER_OPENID"/>
+        <result property="userName"  column="USER_NAME"/>
+        <result property="comment"  column="COMMENT"/>
+        <result property="stars"  column="STARS"/>
+        <result property="state"  column="STATE"/>
+    </resultMap>
+
+
+    <select id="getComment" resultMap="CourseCommentVORM">
+        SELECT * FROM course_comment c,trade_detail t
+        where c.class_id=t.class_id
+
+    </select>
+
+<!--插入用户评价-->
+    <insert id="insertComment" parameterType="com.jk.pojo.CourseComment">
+          INSERT  INTO COURSE_COMMENT
+          (CLASS_ID,COURSE_ID,COURSE_NAME,USER_ID,USER_OPENID,USER_NAME,COMMENT,STARS,STATE)
+          VALUES (
+          #{classId,jdbcType=VARCHAR},
+          #{courseId,jdbcType=VARCHAR},
+          #{courseName,jdbcType=VARCHAR},
+          #{userId,jdbcType=VARCHAR},
+          #{userOpenId,jdbcType=VARCHAR},
+          #{userName,jdbcType=VARCHAR},
+          #{comment,jdbcType=VARCHAR},
+          #{stars,jdbcType=VARCHAR},
+          #{state,jdbcType=VARCHAR}
+          )
+    </insert>
+
+    <select id="selectCourseCommentList" resultMap="CourseCommentVORM">
+        SELECT c1.ID, c1.CLASS_ID,c1.COURSE_NAME,c2.TEACHER_ID,c2.TEACHER_NAME,c2.CLASS_TIME
+        from course_comment c1 join classs c2 on c1.class_id =c2.class_id GROUP BY c1.CLASS_ID
+    </select>
+
+    <select id="selectClassCommentList" parameterType="String" resultMap="CourseCommentVORM">
+       SELECT c1.ID,c1.user_id,c1.class_id,c1.course_name,c1.user_name,c1.stars,c2.teacher_name,c2.class_number
+        FROM course_comment c1 join classs c2 on c1.class_id=c2.class_id and c1.CLASS_ID=#{classId}
+    </select>
+
+    <select id="selectGoodCommentNumber" parameterType="String" resultType="java.lang.Integer">
+          select count(class_id) from course_comment
+          where class_id=#{classId} and stars IN ("3星","4星","5星")
+    </select>
+
+    <select id="selectCommentNumber" parameterType="String" resultType="java.lang.Integer">
+        select count(class_id) from course_comment
+        where class_id=#{classId}
+    </select>
+
+    <select id="selectCommentDetail" parameterType="map" resultType="java.lang.String">
+        select comment from course_comment
+        where class_id=#{classId} and user_id=#{userId}
+    </select>
+</mapper>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>星级评分系统</title>
+    <style>
+        body,div,ul,li,p{margin:0;padding:0;}
+        body{color:#666;font:12px/1.5 Arial;}
+        ul{list-style-type:none;}
+        #star{position:relative;width:600px;margin:10px auto;}
+        #star ul,#star span{float:left;display:inline;height:19px;line-height:19px;}
+        #star ul{margin:0 10px;}
+        #star li{float:left;width:24px;height:25px;cursor: pointer;text-indent:-9999px;background:url(/jk/images/star2.png) no-repeat;}
+        #star strong{color:#f60;padding-left:10px;}
+        #star li.in{background:url(/jk/images/star3.png);}
+        #star p{position:absolute;top:20px;width:159px;height:60px;display:none;background:url(/jk/images/icon.gif) no-repeat;padding:7px 10px 0;}
+        #star p em{color:#f60;display:block;font-style:normal;}
+    </style>
+    <!--<script src="/jk/js/jquery/jquery-1.4.2.js"></script>-->
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var sco;
+       $(function () {
+           var oStar = document.getElementById("star");
+           var aLi = oStar.getElementsByTagName("li");
+           var scoreSpan = document.getElementById("score");
+
+           for (i = 1; i <= aLi.length; i++)
+           {
+               aLi[i - 1].index = i;
+               //点击后进行评分处理
+               // var j = i;
+               addclick(i)
+
+           }
+
+           function addclick (i) {
+               var j = i;
+               aLi[j - 1].onclick = function (event)
+               {
+                   fnPoint(this.index);
+                   // console.log(this);
+                   // console.log(j);
+                   scoreSpan.innerHTML =  + (this.index) + " 星";
+
+               }
+           }
+           //评分处理
+           function fnPoint(iArg)
+           {
+               //分数赋值
+               for (i = 0; i < aLi.length; i++) {
+                   aLi[i].className = i < iArg ? "in" : "";
+               }
+
+           }
+
+           var comment = document.getElementById("commentInput");
+           comment.onclick=function (ev) {
+               // console.log(this);
+               this.select();
+           }
+
+           $("#submit").click(function(){
+               // var score = $("#score")[0].innerHTML;
+               //  console.log($("#score").html())
+               // console.log($("#score").text())
+               var score = $("#score").text();
+               var comment = $("#commentInput").val();
+                console.log(score);
+               // console.log(comment);
+               var d = {
+                   "stars":score,
+                   "comment":comment
+               };
+
+                $.ajax({
+                    headers: {
+                        Accept: "text/plain; charset=utf-8"
+                    },
+                    type: "post",
+                    url:"courseComment.action",
+                    contentType:'application/json',
+                    data:JSON.stringify(d),
+                    success: function (data, textStatus) {
+                        console.log('132')
+                        console.log(data);
+                        window.location = "http://www.baidu.com"
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log('error...')
+                    }
+                })
+           })
+
+
+
+
+
+
+
+       })
+    </script>
+</head>
+<body>
+<div id="star">
+    <span>点击星星就能打分</span>
+    <ul>
+        <li>1</li>
+        <li><a href="javascript:;">2</a></li>
+        <li><a href="javascript:;">3</a></li>
+        <li><a href="javascript:;">4</a></li>
+        <li><a href="javascript:;">5</a></li>
+    </ul>
+    <span id="score"></span>
+    <p></p>
+</div>
+<div style="height:150px;"></div>
+<div>
+    <input type="text" name="comment" id="commentInput" value="请输入你的评价"/>
+</div>
+<div style="height: 100px"></div>
+<div><input type="button" id="submit" value="提交"/></div>
+</body>
+</html>
